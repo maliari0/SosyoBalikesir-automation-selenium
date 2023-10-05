@@ -26,11 +26,12 @@ namespace SelTest1.Areas
             IWebDriver driver = WebDriverManager.GetDriver(); 
             driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel");
             driver.Manage().Window.Maximize();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             driver.FindElement(By.Name("email")).SendKeys(email);
             driver.FindElement(By.Name("password")).SendKeys(passw);
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            
-            
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
         }
     }
 }
