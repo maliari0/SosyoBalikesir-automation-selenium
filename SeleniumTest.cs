@@ -112,7 +112,6 @@ namespace SelTest1
         [Order(10)]
         public void MainInfoCreate()
         {
-            //string title1, string address1, string lat, string lon, string status
             string body = "ATest";
             int coinValue = 2;
             var info = new Info();
@@ -156,6 +155,25 @@ namespace SelTest1
             int questionAmount = 4;
             var question = new Question();
             question.QuestionCreate(text, coinValue, type, questionAmount);
+        }
+        [Test]
+        [Order(15)]
+        public void MainUserPhase()
+        {
+            var user = new User();
+            user.UserPhase();
+        }
+        [Test]
+        [Order(16)]
+        public void MainUserCreate()
+        {
+            var user = new User();
+            string type = "admin";    // dealer = Bayii , admin = Admin
+            string name = "ATest";
+            string userName = "atest";
+            string email = "atest@test.com";
+            string password = "atest12";
+            user.UserCreate(type, name, userName, email, password);
         }
         public void cssDemo()
         {

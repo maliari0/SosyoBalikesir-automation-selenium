@@ -16,6 +16,7 @@ using NUnit.Framework;
 
 using OpenQA.Selenium.Support.UI;
 using SelTest1.drivers;
+using System.Xml.Linq;
 
 
 namespace SelTest1.Areas
@@ -52,6 +53,8 @@ namespace SelTest1.Areas
 
             driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/location");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(locName);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{locName}']]"));
             IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
             deleteButton.Click();
@@ -81,7 +84,33 @@ namespace SelTest1.Areas
             //WebElement row = driver.findElement(By.xpath("//table/tbody/tr[td[text()='" + name + "']]"));
             //WebElement updatebutton = row.findElement(By.xpath(".//td[3]/div/a"));
         }
+        public void LocationUpdate(string locName, string newLocName, int coinNum)
+        {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
+            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/location");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            //IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{locName}']]"));
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{locName}']]"));
+
+            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+            updateButton.Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            IWebElement nameElement = driver.FindElement(By.Name("name"));
+            nameElement.Clear();
+            nameElement.SendKeys(newLocName);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            IWebElement coinBox = driver.FindElement(By.Name("default_coin_amount"));
+            coinBox.Clear();
+            coinBox.SendKeys("" + coinNum);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            driver.FindElement(By.CssSelector(".btn-primary")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
+        }
 
 
     }

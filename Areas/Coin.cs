@@ -79,22 +79,11 @@ namespace SelTest1.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/coin");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            //IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
-            var locationTable = driver.FindElement(By.CssSelector("table"));
-            var rows = locationTable.FindElements(By.TagName("tr"));
-            foreach (var row in rows)
-            {
-                var cells = row.FindElements(By.TagName("td"));
-                foreach (var cell in cells)
-                {
-                    if (cell.Text.Contains(name))
-                    {
-                        var deleteButton = row.FindElement(By.CssSelector("button.btn-danger"));
-                        deleteButton.Click();
-                        break;
-                    }
-                }
-            }
+            driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+            IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
+            deleteButton.Click();
 
 
             string mainWindowHandle = driver.CurrentWindowHandle; // Ana pencerenin işaretçisini alın
@@ -114,5 +103,33 @@ namespace SelTest1.Areas
             IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
             okButton.Click();
         }
+        //public void CoinUpdate(string name)
+        //{
+        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+        //    driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/coin");
+        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+        //    driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
+        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+        //    //IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+
+
+
+        //    string mainWindowHandle = driver.CurrentWindowHandle; // Ana pencerenin işaretçisini alın
+        //    foreach (string handle in driver.WindowHandles)
+        //    {
+        //        if (handle != mainWindowHandle)
+        //        {
+        //            driver.SwitchTo().Window(handle); // Pop-up penceresine geçiş yapın
+        //            break;
+        //        }
+        //    }
+
+        //    // Pop-up penceresindeki 'Evet' butonuna tıklayın
+        //    IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
+        //    yesButton.Click();
+
+        //    IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
+        //    okButton.Click();
+        //}
     }
 }

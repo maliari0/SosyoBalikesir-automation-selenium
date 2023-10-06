@@ -16,6 +16,7 @@ using NUnit.Framework;
 
 using OpenQA.Selenium.Support.UI;
 using SelTest1.drivers;
+using System.Xml.Linq;
 
 namespace SelTest1.Areas
 {
@@ -36,9 +37,11 @@ namespace SelTest1.Areas
 
             driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
 
-            var locationSelect = driver.FindElement(By.Id("dealers"));
-            var locSelectElement = new SelectElement(locationSelect);
-            locSelectElement.SelectByValue("414"); //ATest value = 414 you can change
+            var prizeSelect = driver.FindElement(By.Id("dealers"));
+            var prizeSelectElement = new SelectElement(prizeSelect);
+            //prizeSelectElement.SelectByValue("414"); //ATest value = 414 you can change
+            prizeSelectElement.SelectByIndex(prizeSelectElement.Options.Count - 1);
+
 
             var typeSelect = driver.FindElement(By.Id("type"));
             var typeSelectElement = new SelectElement(typeSelect);
@@ -85,6 +88,67 @@ namespace SelTest1.Areas
 
             IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
             okButton.Click();
+        }
+        public void PrizeUpdate(string value, string prizeName, string prizeDesc, int coinAmount, int prizeAmount, int claimAmount, string prizeStatus)
+        {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/award");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{prizeName}']]"));
+
+            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+            updateButton.Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            var prizeSelect = driver.FindElement(By.Id("dealers"));
+            var prizeSelectElement = new SelectElement(prizeSelect);
+            //prizeSelectElement.SelectByValue("414"); //ATest value = 414 you can change
+            prizeSelectElement.SelectByIndex(prizeSelectElement.Options.Count - 1);
+
+
+            var headlineSelect = driver.FindElement(By.Id("headline"));
+            var headlineSelectElement = new SelectElement(headlineSelect);
+            headlineSelectElement.SelectByValue(value);                         // 0 - hayır , 1 - evet
+
+            IWebElement nameElement = driver.FindElement(By.Name("name"));
+            nameElement.Clear();
+            nameElement.SendKeys(prizeName);
+
+            IWebElement prizeDescElement = driver.FindElement(By.Name("description"));
+            prizeDescElement.Clear();
+            prizeDescElement.SendKeys(prizeDesc);
+
+            IWebElement coinBox = driver.FindElement(By.Name("coin_amount"));
+            coinBox.Clear();
+            coinBox.SendKeys("" + coinAmount);
+
+            IWebElement amountBox = driver.FindElement(By.Name("amount"));
+            amountBox.Clear();
+            amountBox.SendKeys("" + prizeAmount);
+
+            IWebElement claimAmountBox = driver.FindElement(By.Name("claim_amount"));
+            claimAmountBox.Clear();
+            claimAmountBox.SendKeys("" + claimAmount);
+
+            var statusSelect = driver.FindElement(By.Name("status"));
+            var statusSelectElement = new SelectElement(statusSelect);
+            statusSelectElement.SelectByValue(prizeStatus);
+
+
+
+            driver.FindElement(By.CssSelector(".btn-primary")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            //IWebElement newTitleElement = driver.FindElement(By.Name("body"));
+            //newTitleElement.Clear();
+            //newTitleElement.SendKeys(newInfoBody);
+
+            //IWebElement coinBox = driver.FindElement(By.Name("value"));
+            //coinBox.Clear();
+            //coinBox.SendKeys("" + coinValue);
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+            driver.FindElement(By.CssSelector(".btn-primary")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
     }
 }

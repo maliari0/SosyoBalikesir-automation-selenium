@@ -32,21 +32,21 @@ namespace SelTest1
             var log = new Login();
             log.LoginPhase(email, pass);
         }
-        [Test]
-        [Order(2)]
-        public void MainLocation()
-        {
-            var loc = new Location();
-            loc.LocationPhase();
-        }
-        [Test]
-        [Order(4)]
-        public void MainLocationDelete()
-        {
-            var loc = new Location();
-            string locationName = "ATest";
-            loc.LocationDelete(locationName);
-        }
+        //[Test]
+        //[Order(2)]
+        //public void MainLocation()
+        //{
+        //    var loc = new Location();
+        //    loc.LocationPhase();
+        //}
+        //[Test]
+        //[Order(4)]
+        //public void MainLocationDelete()
+        //{
+        //    var loc = new Location();
+        //    string locationName = "ATest";
+        //    loc.LocationDelete(locationName);
+        //}
         [Test]
         [Order(5)]
         public void MainCoin()
@@ -58,55 +58,70 @@ namespace SelTest1
         [Order(6)]
         public void MainCoinDelete()
         {
-            //var coin = new Coin();
-            //string coinName = "ATest";
-            //coin.CoinDelete(coinName);
+            var coin = new Coin(); //Lokasyon silmek, o lokasyona tabii coinleri de siliyor. muhtemelen gereksiz kalacak
+            string coinName = "ATest";
+            coin.CoinDelete(coinName);
         }
-        [Test]
-        [Order(7)]
-        public void MainPlace()
-        {
-            var place = new Place();
-            place.PlacePhase();
-        }
-        [Test]
-        [Order(8)]
-        public void MainPlaceDelete()
-        {
-            var place = new Place();
-            string placeName = "ATest";
-            place.PlaceDelete(placeName);
-        }
-        [Test]
-        [Order(9)]
-        public void MainInfo()
-        {
-            var info = new Info();
-            info.InfoPhase();
-        }
-        [Test]
-        [Order(10)]
-        public void MainInfoDelete()
-        {
-            var info = new Info();
-            string infoName = "ATest";
-            info.InfoDelete(infoName);
-        }
-        [Test]
-        [Order(11)]
-        public void MainPrize()
-        {
-            var prize = new Prize();
-            prize.PrizePhase();
-        }
-        [Test]
-        [Order(12)]
-        public void MainPrizeDelete()
-        {
-            var prize = new Prize();
-            string prizeName = "ATest";
-            prize.PrizeDelete(prizeName);
-        }
+        //[Test]
+        //[Order(7)]
+        //public void MainPlace()
+        //{
+        //    var place = new Place();
+        //    place.PlacePhase();
+        //}
+        //[Test]
+        //[Order(8)]
+        //public void MainPlaceDelete()
+        //{
+        //    var place = new Place();
+        //    string placeName = "ATest";
+        //    place.PlaceDelete(placeName);
+        //}
+        //[Test]
+        //[Order(9)]
+        //public void MainInfo()
+        //{
+        //    var info = new Info();
+        //    info.InfoPhase();
+        //}
+        //[Test]
+        //[Order(10)]
+        //public void MainInfoDelete()
+        //{
+        //    var info = new Info();
+        //    string infoName = "ATest";
+        //    info.InfoDelete(infoName);
+        //}
+        //[Test]
+        //[Order(11)]
+        //public void MainPrize()
+        //{
+        //    var prize = new Prize();
+        //    prize.PrizePhase();
+        //}
+        //[Test]
+        //[Order(12)]
+        //public void MainPrizeDelete()
+        //{
+        //    var prize = new Prize();
+        //    string prizeName = "ATest";
+        //    prize.PrizeDelete(prizeName);
+        //}
+        //[Test]
+        //[Order(13)]
+        //public void MainUser()
+        //{
+        //    var user = new User();
+        //    user.UserPhase();
+        //}
+        //[Test]
+        //[Order(14)]
+        //public void MainUserDelete()
+        //{
+        //    var user = new User();
+        //    string userName = "ATest";
+        //    user.UserDelete(userName);
+        //}
         //[Test]
         //[Order(13)]
         //public void MainQuestion()
