@@ -47,21 +47,21 @@ namespace SelTest1
         //    string locationName = "ATest";
         //    loc.LocationDelete(locationName);
         //}
-        [Test]
-        [Order(5)]
-        public void MainCoin()
-        {
-            var coin = new Coin();
-            coin.CoinPhase();
-        }
-        [Test]
-        [Order(6)]
-        public void MainCoinDelete()
-        {
-            var coin = new Coin(); //Lokasyon silmek, o lokasyona tabii coinleri de siliyor. muhtemelen gereksiz kalacak
-            string coinName = "ATest";
-            coin.CoinDelete(coinName);
-        }
+        //[Test]
+        //[Order(5)]
+        //public void MainCoin()
+        //{
+        //    var coin = new Coin();
+        //    coin.CoinPhase();
+        //}
+        //[Test]
+        //[Order(6)]
+        //public void MainCoinDelete()
+        //{
+        //    var coin = new Coin(); //Lokasyon silmek, o lokasyona tabii coinleri de siliyor. muhtemelen gereksiz kalacak
+        //    string coinName = "ATest";
+        //    coin.CoinDelete(coinName);
+        //}
         //[Test]
         //[Order(7)]
         //public void MainPlace()
@@ -123,20 +123,20 @@ namespace SelTest1
         //    user.UserDelete(userName);
         //}
         //[Test]
-        //[Order(13)]
-        //public void MainQuestion()
-        //{
-        //    var question = new Question();
-        //    question.QuestionPhase();
-        //}
-        //[Test]
-        //[Order(14)]
-        //public void MainQuestionDelete()
-        //{
-        //    // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
-        //    string text = "ATest text";
-        //    var question = new Question();
-        //    question.QuestionDelete(text);
-        //}
+        [Order(15)]
+        public void MainQuestion()
+        {
+            var question = new Question();
+            question.QuestionPhase();
+        }
+        [Test]
+        [Order(16)]
+        public void MainQuestionDelete()
+        {
+            // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
+            string text = "ATest text";
+            var question = new Question();
+            question.QuestionDelete(text);
+        }
     }
 }
