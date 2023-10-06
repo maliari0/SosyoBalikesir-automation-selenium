@@ -83,35 +83,6 @@ namespace SelTest1.Areas
                     break;
                 }
             } while (x == true);
-
-            
-
-
-            //var locationTable = driver.FindElement(By.CssSelector("table"));
-            //var rows = locationTable.FindElements(By.TagName("tr"));
-            //while (true)
-            //{
-            //    bool found = false;
-            //    foreach (var row in rows)
-            //    {
-            //        var cells = row.FindElements(By.TagName("td"));
-            //        foreach (var cell in cells)
-            //        {
-            //            if (cell.Text.Contains(name))
-            //            {
-            //                var deleteButton1 = row.FindElement(By.CssSelector("button.btn-danger"));
-            //                deleteButton1.Click();
-            //                found = true;
-            //                break;
-            //            }
-            //        }
-            //        if (found) break;
-            //    }
-            //    if (!found) break;
-            //}
-
-
-
             
         }
     }
