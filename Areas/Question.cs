@@ -25,8 +25,8 @@ namespace SelTest1.Areas
         public void QuestionPhase()
         {
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            //driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/place");
-            driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-question-circle\"]")).Click();
+            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/question");
+            //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-question-circle\"]")).Click();
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
