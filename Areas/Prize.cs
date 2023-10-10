@@ -26,16 +26,17 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void PrizePhase()
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/award");
+            Thread.Sleep(1000);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award");
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void PrizeCreate(string value, string prizeName, string prizeDesc, int coinNum, int prizeAmount)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            Thread.Sleep(1000);
 
-            driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
+            //driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award/create");
 
             var prizeSelect = driver.FindElement(By.Id("dealers"));
             var prizeSelectElement = new SelectElement(prizeSelect);
@@ -67,8 +68,8 @@ namespace SelTest1.Areas
             bool x = true;
             do
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-                driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/award");
+                Thread.Sleep(1000);
+                driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award");
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
                 driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
@@ -105,10 +106,12 @@ namespace SelTest1.Areas
 
             
         }
-        public void PrizeUpdate(string value, string prizeName, string prizeDesc, int coinAmount, int prizeAmount, int claimAmount, string prizeStatus)
+        public void PrizeUpdate(string value, string prizeName, string newPrizeName, string prizeDesc, int coinAmount, int prizeAmount, int claimAmount, string prizeStatus)
         {
+            Thread.Sleep(600);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/award");
+            driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(prizeName);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{prizeName}']]"));
 
@@ -128,7 +131,7 @@ namespace SelTest1.Areas
 
             IWebElement nameElement = driver.FindElement(By.Name("name"));
             nameElement.Clear();
-            nameElement.SendKeys(prizeName);
+            nameElement.SendKeys(newPrizeName);
 
             IWebElement prizeDescElement = driver.FindElement(By.Name("description"));
             prizeDescElement.Clear();
@@ -150,21 +153,21 @@ namespace SelTest1.Areas
             var statusSelectElement = new SelectElement(statusSelect);
             statusSelectElement.SelectByValue(prizeStatus);
 
-
-
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            //IWebElement newTitleElement = driver.FindElement(By.Name("body"));
-            //newTitleElement.Clear();
-            //newTitleElement.SendKeys(newInfoBody);
-
-            //IWebElement coinBox = driver.FindElement(By.Name("value"));
-            //coinBox.Clear();
-            //coinBox.SendKeys("" + coinValue);
-
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
-            driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            Assert.IsTrue(IsPrizeUpdatedSuccessfully(), $"Ödül güncelleme başarısız: Bu isimde bir ödül bulunamadı: {prizeName}");
+        }
+        private bool IsPrizeUpdatedSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }

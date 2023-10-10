@@ -113,23 +113,66 @@ namespace SelTest1
             var info = new Info();
             info.InfoUpdate(body, newBody, coinValue);        
         }
-        //[Test]
-        //[Order(8)]
-        //public void MainInfo()
-        //{
-        //    var info = new Info();
-        //    info.InfoPhase();
-        //}
-        //[Test]
-        //[Order(9)]
-        //public void MainInfoUpdate()
-        //{
-        //    string body = "ATest";
-        //    string newBody = "ATest Updated";
-        //    int coinValue = 3;
-            //string status = "0";
-        //    var info = new Info();
-        //    info.InfoUpdate(body, newBody, coinValue);           // 0 - hayır , 1 - evet
-        //}
+        [Test]
+        [Order(10)]
+        public void MainPrize()
+        {
+            var info = new Info();
+            info.InfoPhase();
+        }
+        [Test]
+        [Order(11)]
+        public void MainPrizeUpdate()
+        {
+            string value = "0";    // 0 - hayır , 1 - evet
+            string name = "ATest";
+            string newName = "ATestUpdated";
+            string desc = "ATest Desc Updated";
+            int coinAmount = 12;
+            int prizeAmount = 12;
+            int claimAmount = 12;
+            string status = "0";          // 0 - Alınamaz  ,  1 - Alınabilir
+            var prize = new Prize();
+            prize.PrizeUpdate(value, name, newName, desc, coinAmount, prizeAmount, claimAmount, status);          
+        }
+        [Test]
+        [Order(12)]
+        public void MainQuestion()
+        {
+            var question = new Question();
+            question.QuestionPhase();
+        }
+        [Test]
+        [Order(13)]
+        public void MainQuestionUpdate()
+        {
+            // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
+            string text = "ATest text";
+            string newText = "ATest text Updated";
+            int type = 1;
+            int questionAmount = 4;
+            var question = new Question();
+            question.QuestionUpdate(text, newText, type, questionAmount);
+        }
+        [Test]
+        [Order(14)]
+        public void MainUser()
+        {
+            var user = new User();
+            user.UserPhase();
+        }
+        [Test]
+        [Order(15)]
+        public void MainUserUpdate()
+        {
+            var user = new User();
+            string type = "dealer";    // dealer = Bayii , admin = Admin
+            string name = "ATest";
+            string newName = "ATest Updated";
+            string userName = "atest";
+            string email = "atest@test.com";
+            string password = "atest12";
+            user.UserUpdate(type, name, newName, userName, email, password);
+        }
     }
 }

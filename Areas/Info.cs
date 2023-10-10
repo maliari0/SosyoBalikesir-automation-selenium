@@ -14,14 +14,14 @@ namespace SelTest1.Areas
         public void InfoPhase()
         {
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            //driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/place");
+            //driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place");
             driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-poll\"]")).Click();
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void InfoCreate(string infoBody, int coinValue)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            Thread.Sleep(1000);
 
             driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
 
@@ -38,8 +38,8 @@ namespace SelTest1.Areas
             bool x = true;
             do
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-                driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/information");
+                Thread.Sleep(1000);
+                driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/information");
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
                 driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
@@ -76,8 +76,8 @@ namespace SelTest1.Areas
         }
         public void InfoUpdate(string infoBody,string newInfoBody, int coinValue)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/information");
+            Thread.Sleep(500);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/information");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(infoBody);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -99,6 +99,20 @@ namespace SelTest1.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
+            Assert.IsTrue(IsInfoUpdatedSuccessfully(), $"Bilgi güncelleme başarısız: Bu isimde bir bilgi bulunamadı: {infoBody}");
+        }
+        private bool IsInfoUpdatedSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }

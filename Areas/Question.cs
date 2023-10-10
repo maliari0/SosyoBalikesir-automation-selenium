@@ -24,15 +24,15 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void QuestionPhase()
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/question");
+            Thread.Sleep(1000);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/question");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-question-circle\"]")).Click();
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void QuestionCreate(string qText, int coinValue, int type, int questionAmount)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            Thread.Sleep(1000);
             driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
@@ -100,23 +100,27 @@ namespace SelTest1.Areas
             bool x = true;
             do
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-                driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/question");
+                Thread.Sleep(100);
+                driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/question");
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
                 driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
                 try
                 {
-                    var rows = driver.FindElements(By.XPath($"//table[@id='{name}']/tbody/tr"));
-                    foreach (var row in rows)
-                    {
-                        var cells = row.FindElements(By.TagName("td"));
-                        if (cells[1].Text.Contains(name))
-                        {
-                            var deleteButton = row.FindElement(By.CssSelector("button.btn-danger"));
-                            deleteButton.Click();
-                        }
-                    }
+                    //var rows = driver.FindElements(By.XPath($"//table[@id='{name}']/tbody/tr"));
+                    //foreach (var row in rows)
+                    //{
+                    //    var cells = row.FindElements(By.TagName("td"));
+                    //    if (cells[1].Text.Contains(name))
+                    //    {
+                    //        var deleteButton = row.FindElement(By.CssSelector("button.btn-danger"));
+                    //        deleteButton.Click();
+                    //    }
+                    //}
+                    IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+                    //tbody/tr[1]/td[1]
+                    IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
+                    deleteButton.Click();
                     string mainWindowHandle = driver.CurrentWindowHandle; // Ana pencerenin işaretçisini alın
                     foreach (string handle in driver.WindowHandles)
                     {
@@ -138,8 +142,71 @@ namespace SelTest1.Areas
                     break;
                 }
             } while (x == true);
+        }
+        public void QuestionUpdate(string qText, string newQText, int type, int questionAmount)
+        {
+            Thread.Sleep(500);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/question");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(qText);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
-            
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{qText}']]"));
+            //tbody/tr[1]/td[1]
+            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+            updateButton.Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            IWebElement newTitleElement = driver.FindElement(By.Name("body"));
+            newTitleElement.Clear();
+            newTitleElement.SendKeys(newQText);
+
+            var typeSelect = driver.FindElement(By.Name("question_type"));
+            var typeSelectElement = new SelectElement(typeSelect);
+            typeSelectElement.SelectByIndex(type);
+            // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            if (type == 1)
+            {
+                for (int i = 1; i <= questionAmount; i++)
+                {
+                    driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']")).SendKeys("Cevap " + i);
+                    driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
+
+                }
+                for (int i = questionAmount + 1; i >= questionAmount + 1; i--)
+                {
+                    var key = ("Cevap " + (i));
+                    driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']")).SendKeys(key);
+                    IWebElement correctAnswerCheckbox = driver.FindElement(By.Name("is_correct")); // Örnek bir ID kullanıldı
+                    correctAnswerCheckbox.Click();
+
+                    //var radioButton = driver.FindElement(By.CssSelector($"input[name='is_correct'][value='{key}']"));
+                    //((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].setAttribute('checked', 'true')", radioButton);
+                }
+            }
+            else { }  //doldurulacak diğer soru tipleri için
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            IWebElement button = driver.FindElement(By.CssSelector("button[type='submit']"));
+            button.Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
+            Assert.IsTrue(IsQuestionUpdatedSuccessfully(), $"Soru güncelleme başarısız: Bu isimde bir soru bulunamadı: {qText}");
+        }
+        private bool IsQuestionUpdatedSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
+
 }

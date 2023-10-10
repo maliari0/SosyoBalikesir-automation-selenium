@@ -14,15 +14,15 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void UserPhase()
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            //driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/place");
-            driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-user\"]")).Click();
+            Thread.Sleep(100);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/user");
+            //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-user\"]")).Click();
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void UserCreate(string groupType, string name, string userName, string email, string passw)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            Thread.Sleep(100);
 
             driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
@@ -41,62 +41,111 @@ namespace SelTest1.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            Assert.IsTrue(IsLocationCreatedSuccessfully(), "Kullanıcı oluşturma başarısız: Aynı isimde başka bir kullanıcı zaten var.");
         }
+        private bool IsLocationCreatedSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return false; 
+            }
+            catch (NoSuchElementException)
+            {
+                return true; 
+            }
+        }
+    
         public void UserDelete(string name)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/user");
+            bool x = true;
+            Thread.Sleep(1000);
+            do
+            {
+                driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/user");
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+                driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                try
+                {
+                    IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+                    //tbody/tr[1]/td[1]
+                    IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
+                    deleteButton.Click();
+
+                    string mainWindowHandle = driver.CurrentWindowHandle; // Ana pencerenin işaretçisini alın
+                    foreach (string handle in driver.WindowHandles)
+                    {
+                        if (handle != mainWindowHandle)
+                        {
+                            driver.SwitchTo().Window(handle); // Pop-up penceresine geçiş yapın
+                            break;
+                        }
+                    }
+
+                    // Pop-up penceresindeki 'Evet' butonuna tıklayın
+                    IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
+                    yesButton.Click();
+
+                    IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
+                    okButton.Click();
+                }
+                catch (NoSuchElementException)
+                {
+                    break;
+                }
+            } while (x == true);
+            
+        }
+        public void UserUpdate(string groupType, string name, string newName, string userName, string email, string passw)
+        {
+            Thread.Sleep(500);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/user");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
-
-            //var locationTable = driver.FindElement(By.CssSelector("table"));
-            //var rows = locationTable.FindElements(By.TagName("tr"));
-            //while (true)
-            //{
-            //    bool found = false;
-            //    foreach (var row in rows)
-            //    {
-            //        var cells = row.FindElements(By.TagName("td"));
-            //        foreach (var cell in cells)
-            //        {
-            //            if (cell.Text.Contains(name))
-            //            {
-            //                var deleteButton1 = row.FindElement(By.CssSelector("button.btn-danger"));
-            //                deleteButton1.Click();
-            //                found = true;
-            //                break;
-            //            }
-            //        }
-            //        if (found) break;
-            //    }
-            //    if (!found) break;
-            //}
+            var groupSelect = driver.FindElement(By.Name("user_group"));  //Grup seçimi
+            var groupSelectElement = new SelectElement(groupSelect);
+            groupSelectElement.SelectByValue(groupType);
 
 
+            IWebElement nameElement = driver.FindElement(By.Name("fullName"));
+            nameElement.Clear();
+            nameElement.SendKeys(newName);
 
-            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
-            //tbody/tr[1]/td[1]
-            IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
-            deleteButton.Click();
+            IWebElement userNameElement = driver.FindElement(By.Name("username"));
+            userNameElement.Clear();
+            userNameElement.SendKeys(userName);
 
-            string mainWindowHandle = driver.CurrentWindowHandle; // Ana pencerenin işaretçisini alın
-            foreach (string handle in driver.WindowHandles)
+            IWebElement emailElement = driver.FindElement(By.Name("email"));
+            emailElement.Clear();
+            emailElement.SendKeys(email);
+
+            IWebElement passwordElement = driver.FindElement(By.Name("password"));
+            passwordElement.Clear();
+            passwordElement.SendKeys(passw);
+
+            IWebElement passwordConfirmElement = driver.FindElement(By.Name("password_confirmation"));
+            passwordConfirmElement.Clear();
+            passwordConfirmElement.SendKeys(passw);
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+            driver.FindElement(By.CssSelector(".btn-primary")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            Assert.IsTrue(IsUserUpdatedSuccessfully(), $"Kullanıcı Güncelleme başarısız! Bu isimde bir kullanıcı bulunamadı: {name}!");
+        }
+        private bool IsUserUpdatedSuccessfully()
+        {
+            try
             {
-                if (handle != mainWindowHandle)
-                {
-                    driver.SwitchTo().Window(handle); // Pop-up penceresine geçiş yapın
-                    break;
-                }
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true; 
             }
-
-            // Pop-up penceresindeki 'Evet' butonuna tıklayın
-            IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
-            yesButton.Click();
-
-            IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
-            okButton.Click();
+            catch (NoSuchElementException)
+            {
+                return false; 
+            }
         }
     }
 }

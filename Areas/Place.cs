@@ -26,14 +26,14 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void PlacePhase()
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/place");
+            Thread.Sleep(100);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place");
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void PlaceCreate(string title1, string address1, int lat, int lon, string status)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            Thread.Sleep(500);
 
             driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
             driver.FindElement(By.Name("title")).SendKeys(title1);
@@ -67,8 +67,8 @@ namespace SelTest1.Areas
             bool x = true;
             do
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-                driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/place");
+                Thread.Sleep(100);
+                driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place");
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
                 driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);   //sonradan eklendi hata varssa budur.
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
@@ -147,6 +147,20 @@ namespace SelTest1.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
+            Assert.IsTrue(IsPlaceUpdatedSuccessfully(), $"Yer güncelleme başarısız: Bu isimde bir yer bulunamadı: {title1}");
+        }
+        private bool IsPlaceUpdatedSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }

@@ -42,14 +42,14 @@ namespace SelTest1
         //}
 
         [Test]
-        [Order(2)]
+        [Order(1)]
         public void MainLocation()
         {
             var loc = new Location();
             loc.LocationPhase();
         }
         [Test]
-        [Order(3)]
+        [Order(2)]
         public void MainLocationCreate()
         {
             string locationName = "ATest";
@@ -57,23 +57,15 @@ namespace SelTest1
             var loc = new Location();
             loc.LocationCreate(locationName, coinQuantity);
         }
-        //[Test]
-        //[Order(4)]
-        //public void MainLocationDelete()
-        //{
-        //    var loc = new Location();
-        //    string locationName = "ATest";
-        //    loc.LocationDelete(locationName);
-        //}
         [Test]
-        [Order(5)]
+        [Order(3)]
         public void MainCoin()
         {
             var coin = new Coin();
             coin.CoinPhase();
         }
         [Test]
-        [Order(6)]
+        [Order(4)]
         public void MainCoinCreate()
         {
             int coinValue = 1;
@@ -82,14 +74,14 @@ namespace SelTest1
             coin.CoinCreate(type, coinValue);
         }
         [Test]
-        [Order(7)]
+        [Order(5)]
         public void MainPlace()
         {
             var place = new Place();
             place.PlacePhase();
         }
         [Test]
-        [Order(8)]
+        [Order(6)]
         public void MainPlaceCreate()
         {
             //string title1, string address1, string lat, string lon, string status
@@ -102,14 +94,14 @@ namespace SelTest1
             place.PlaceCreate(title, address, lat, lon, status);
         }
         [Test]
-        [Order(9)]
+        [Order(7)]
         public void MainInfo()
         {
             var info = new Info();
             info.InfoPhase();
         }
         [Test]
-        [Order(10)]
+        [Order(8)]
         public void MainInfoCreate()
         {
             string body = "ATest";
@@ -118,14 +110,14 @@ namespace SelTest1
             info.InfoCreate(body, coinValue);
         }
         [Test]
-        [Order(11)]
+        [Order(9)]
         public void MainPrize()
         {
             var prize = new Prize();
             prize.PrizePhase();
         }
         [Test]
-        [Order(12)]
+        [Order(10)]
         public void MainPrizeCreate()
         {
             //Values= other , internet , balkart
@@ -138,14 +130,14 @@ namespace SelTest1
             prize.PrizeCreate(value, name, desc, coinNum, amount);
         }
         [Test]
-        [Order(13)]
+        [Order(11)]
         public void MainQuestion()
         {
             var question = new Question();
             question.QuestionPhase();
         }
         [Test]
-        [Order(14)]
+        [Order(12)]
         public void MainQuestionCreate()
         {
             // Birden çok yanýt - 1 , Çoktan seçmeli - 2 , Boþluk doldurma - 3
@@ -157,14 +149,14 @@ namespace SelTest1
             question.QuestionCreate(text, coinValue, type, questionAmount);
         }
         [Test]
-        [Order(15)]
+        [Order(13)]
         public void MainUserPhase()
         {
             var user = new User();
             user.UserPhase();
         }
         [Test]
-        [Order(16)]
+        [Order(14)]
         public void MainUserCreate()
         {
             var user = new User();
