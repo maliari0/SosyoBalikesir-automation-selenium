@@ -24,7 +24,7 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void QuestionPhase()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/question");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-question-circle\"]")).Click();
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan

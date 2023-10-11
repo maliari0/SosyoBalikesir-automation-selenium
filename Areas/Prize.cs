@@ -26,7 +26,7 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void PrizePhase()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
