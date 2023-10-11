@@ -14,8 +14,8 @@ namespace SelTest1.Areas
         public void InfoPhase()
         {
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            //driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place");
-            driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-poll\"]")).Click();
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/information");
+            //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-poll\"]")).Click();
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
@@ -68,15 +68,27 @@ namespace SelTest1.Areas
                 }
                 catch (NoSuchElementException)
                 {
-
-                    break;
+                    Assert.IsTrue(IsInfoDeleteSuccessfully(), $"Bilgi silme başarısız: Bu isimde bilgi bulunamadı: {name}");
                 }
             } while (x == true);
  
         }
+        private bool IsInfoDeleteSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+
+        }
         public void InfoUpdate(string infoBody,string newInfoBody, int coinValue)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/information");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(infoBody);
@@ -107,11 +119,11 @@ namespace SelTest1.Areas
             try
             {
                 driver.FindElement(By.CssSelector(".alert-success"));
-                return true;
+                return false;
             }
             catch (NoSuchElementException)
             {
-                return false;
+                return true;
             }
         }
     }

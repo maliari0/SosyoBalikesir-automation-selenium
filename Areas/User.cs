@@ -92,18 +92,36 @@ namespace SelTest1.Areas
                 }
                 catch (NoSuchElementException)
                 {
-                    break;
+                    Assert.IsTrue(IsUserDeleteSuccessfully(), $"Kullanıcı silme başarısız: Bu isimde bir kullanıcı bulunamadı: {name}");
                 }
-            } while (x == true);
-            
+            } while (x == true); 
+        }
+        private bool IsUserDeleteSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+
         }
         public void UserUpdate(string groupType, string name, string newName, string userName, string email, string passw)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/user");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+
+            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+            updateButton.Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
             var groupSelect = driver.FindElement(By.Name("user_group"));  //Grup seçimi
             var groupSelectElement = new SelectElement(groupSelect);
@@ -140,11 +158,11 @@ namespace SelTest1.Areas
             try
             {
                 driver.FindElement(By.CssSelector(".alert-success"));
-                return true; 
+                return false; 
             }
             catch (NoSuchElementException)
             {
-                return false; 
+                return true; 
             }
         }
     }

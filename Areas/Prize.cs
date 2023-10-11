@@ -28,7 +28,6 @@ namespace SelTest1.Areas
         {
             Thread.Sleep(1000);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award");
-            //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void PrizeCreate(string value, string prizeName, string prizeDesc, int coinNum, int prizeAmount)
@@ -100,15 +99,26 @@ namespace SelTest1.Areas
                 }
                 catch (NoSuchElementException)
                 {
-                    break;
+                    Assert.IsTrue(IsPrizeDeleteSuccessfully(), $"Ödül silme başarısız: Bu isimde bir ödül bulunamadı: {name}");
                 }
             } while (x == true);
+        }
+        private bool IsPrizeDeleteSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
 
-            
         }
         public void PrizeUpdate(string value, string prizeName, string newPrizeName, string prizeDesc, int coinAmount, int prizeAmount, int claimAmount, string prizeStatus)
         {
-            Thread.Sleep(600);
+            Thread.Sleep(1000);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(prizeName);
@@ -162,11 +172,11 @@ namespace SelTest1.Areas
             try
             {
                 driver.FindElement(By.CssSelector(".alert-success"));
-                return true;
+                return false;
             }
             catch (NoSuchElementException)
             {
-                return false;
+                return true;
             }
         }
     }

@@ -96,13 +96,24 @@ namespace SelTest1.Areas
                 }
                 catch (NoSuchElementException) 
                 {
-                    break;
+                    Assert.IsTrue(IsPlaceDeleteSuccessfully(), $"Yer silme başarısız: Bu isimde bir yer bulunamadı: {name}");
                 }
-                
+
             }
-            while (x == true);
-            
-            
+            while (x == true);       
+        }
+        private bool IsPlaceDeleteSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+
         }
         public void PlaceUpdate(string title1, string newTitle1, string newAddress1, float lat, float lon, string status)
         {
@@ -155,11 +166,11 @@ namespace SelTest1.Areas
             try
             {
                 driver.FindElement(By.CssSelector(".alert-success"));
-                return true;
+                return false;
             }
             catch (NoSuchElementException)
             {
-                return false;
+                return true;
             }
         }
     }

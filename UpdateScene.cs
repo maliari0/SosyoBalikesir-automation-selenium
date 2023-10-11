@@ -117,8 +117,8 @@ namespace SelTest1
         [Order(10)]
         public void MainPrize()
         {
-            var info = new Info();
-            info.InfoPhase();
+            var prize = new Prize();
+            prize.PrizePhase();
         }
         [Test]
         [Order(11)]
@@ -131,7 +131,7 @@ namespace SelTest1
             int coinAmount = 12;
             int prizeAmount = 12;
             int claimAmount = 12;
-            string status = "0";          // 0 - Alınamaz  ,  1 - Alınabilir
+            string status = "1";          // 0 - Alınamaz  ,  1 - Alınabilir
             var prize = new Prize();
             prize.PrizeUpdate(value, name, newName, desc, coinAmount, prizeAmount, claimAmount, status);          
         }

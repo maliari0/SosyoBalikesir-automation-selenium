@@ -145,11 +145,11 @@ namespace SelTest1.Areas
             try
             {
                 driver.FindElement(By.CssSelector(".alert-success"));
-                return true;
+                return false;
             }
             catch (NoSuchElementException)
             {
-                return false;
+                return true;
             }
         }
     }

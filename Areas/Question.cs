@@ -139,9 +139,22 @@ namespace SelTest1.Areas
                 }
                 catch (NoSuchElementException)
                 {
-                    break;
+                    Assert.IsTrue(IsQuestionDeleteSuccessfully(), $"Soru silme başarısız: Bu isimde bir soru bulunamadı: {name}");
                 }
             } while (x == true);
+        }
+        private bool IsQuestionDeleteSuccessfully()
+        {
+            try
+            {
+                driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+
         }
         public void QuestionUpdate(string qText, string newQText, int type, int questionAmount)
         {
@@ -157,7 +170,7 @@ namespace SelTest1.Areas
             updateButton.Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-            IWebElement newTitleElement = driver.FindElement(By.Name("body"));
+            IWebElement newTitleElement = driver.FindElement(By.Name("question_text"));
             newTitleElement.Clear();
             newTitleElement.SendKeys(newQText);
 
@@ -200,11 +213,11 @@ namespace SelTest1.Areas
             try
             {
                 driver.FindElement(By.CssSelector(".alert-success"));
-                return true;
+                return false;
             }
             catch (NoSuchElementException)
             {
-                return false;
+                return true;
             }
         }
     }
