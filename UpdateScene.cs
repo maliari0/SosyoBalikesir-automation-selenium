@@ -1,22 +1,4 @@
-﻿using NUnit.Framework;
-
-using OpenQA.Selenium;
-
-using OpenQA.Selenium.Chrome;
-
-using OpenQA.Selenium.Firefox;
-
-using System;
-
-using System.Collections.ObjectModel;
-
-using System.IO;
-
-using NUnit.Framework;
-
-using OpenQA.Selenium.Support.UI;
-
-using SelTest1.Areas;
+﻿using SelTest1.Areas;
 
 namespace SelTest1
 {
@@ -31,24 +13,15 @@ namespace SelTest1
             var log = new Login();
             log.LoginPhase(email, pass);
         }
-
-        //[Test]
-        //[Order(1)]
-        //public void MainLogout()
-        //{
-        //    var logout = new Logout();
-        //    logout.LogoutPhase();
-        //}
-
         [Test]
-        [Order(2)]
+        [Order(1)]
         public void MainLocation()
         {
             var loc = new Location();
             loc.LocationPhase();
         }
         [Test]
-        [Order(3)]
+        [Order(2)]
         public void MainLocationUpdate()
         {
             string locationName = "ATest";
@@ -58,14 +31,14 @@ namespace SelTest1
             loc.LocationUpdate(locationName, newLocName, coinQuantity);
         }
         [Test]
-        [Order(4)]
+        [Order(3)]
         public void MainCoin()
         {
             var coin = new Coin();
             coin.CoinPhase();
         }
         //[Test]
-        //[Order(5)]
+        //[Order(4)]
         //public void MainCoinUpdate()
         //{
         //    int coinValue = 1;
@@ -74,14 +47,14 @@ namespace SelTest1
         //    coin.CoinCreate(type, coinValue);
         //}
         [Test]
-        [Order(6)]
+        [Order(5)]
         public void MainPlace()
         {
             var place = new Place();
             place.PlacePhase();
         }
         [Test]
-        [Order(7)]
+        [Order(6)]
         public void MainPlaceUpdate()
         {
             //string title1, string address1, string lat, string lon, string status
@@ -97,14 +70,14 @@ namespace SelTest1
             place.PlaceUpdate(title, titleUpdated, addressUpdated, lat, lon, statusUpdated);
         }
         [Test]
-        [Order(8)]
+        [Order(7)]
         public void MainInfo()
         {
             var info = new Info();
             info.InfoPhase();
         }
         [Test]
-        [Order(9)]
+        [Order(8)]
         public void MainInfoUpdate()
         {
             string body = "ATest";
@@ -114,14 +87,14 @@ namespace SelTest1
             info.InfoUpdate(body, newBody, coinValue);        
         }
         [Test]
-        [Order(10)]
+        [Order(9)]
         public void MainPrize()
         {
             var prize = new Prize();
             prize.PrizePhase();
         }
         [Test]
-        [Order(11)]
+        [Order(10)]
         public void MainPrizeUpdate()
         {
             string value = "0";    // 0 - hayır , 1 - evet
@@ -136,14 +109,14 @@ namespace SelTest1
             prize.PrizeUpdate(value, name, newName, desc, coinAmount, prizeAmount, claimAmount, status);          
         }
         [Test]
-        [Order(12)]
+        [Order(11)]
         public void MainQuestion()
         {
             var question = new Question();
             question.QuestionPhase();
         }
         [Test]
-        [Order(13)]
+        [Order(12)]
         public void MainQuestionUpdate()
         {
             // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
@@ -155,14 +128,14 @@ namespace SelTest1
             question.QuestionUpdate(text, newText, type, questionAmount);
         }
         [Test]
-        [Order(14)]
+        [Order(13)]
         public void MainUser()
         {
             var user = new User();
             user.UserPhase();
         }
         [Test]
-        [Order(15)]
+        [Order(14)]
         public void MainUserUpdate()
         {
             var user = new User();
@@ -173,6 +146,13 @@ namespace SelTest1
             string email = "atest@test.com";
             string password = "atest12";
             user.UserUpdate(type, name, newName, userName, email, password);
+        }
+        [Test]
+        [Order(15)]
+        public void MainLogout()
+        {
+            var logout = new Logout();
+            logout.LogoutPhase();
         }
     }
 }

@@ -21,16 +21,14 @@ namespace SelTest1.Areas
 {
     internal class Logout
     {
+        IWebDriver driver = WebDriverManager.GetDriver();
+
         public void LogoutPhase() 
         {
-            System.Threading.Thread.Sleep(2000);
-            IWebDriver driver = WebDriverManager.GetDriver();
-            IWebElement logoutButton = driver.FindElement(By.CssSelector("i[class=\"fas fa-sign-out-alt\"]"));
-            logoutButton.Click();
-
-            // İsteğe bağlı olarak çıkış sonrası beklemek için bir süre bekleme ekleyebilirsiniz.
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(1000);
+            //IWebElement logoutButton = driver.FindElement(By.CssSelector("i[class=\"fas fa-sign-out-alt\"]"));
+            //logoutButton.Click();
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/log-out");
         }
-        
     }
 }

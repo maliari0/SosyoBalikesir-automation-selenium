@@ -1,28 +1,9 @@
-﻿using NUnit.Framework;
-
-using OpenQA.Selenium;
-
-using OpenQA.Selenium.Chrome;
-
-using OpenQA.Selenium.Firefox;
-
-using System;
-
-using System.Collections.ObjectModel;
-
-using System.IO;
-
-using NUnit.Framework;
-
-using OpenQA.Selenium.Support.UI;
-
-using SelTest1.Areas;
+﻿using SelTest1.Areas;
 
 namespace SelTest1
 {
     public class Collapse
     {
-        //asd
         [Test]
         [Order(0)]
         public void MainLogin()
@@ -33,14 +14,14 @@ namespace SelTest1
             log.LoginPhase(email, pass);
         }
         [Test]
-        [Order(2)]
+        [Order(1)]
         public void MainLocation()
         {
             var loc = new Location();
             loc.LocationPhase();
         }
         [Test]
-        [Order(3)]
+        [Order(2)]
         public void MainLocationDelete()
         {
             var loc = new Location();
@@ -48,14 +29,14 @@ namespace SelTest1
             loc.LocationDelete(locationName);
         }
         [Test]
-        [Order(4)]
+        [Order(3)]
         public void MainCoin()
         {
             var coin = new Coin();
             coin.CoinPhase();
         }
         [Test]
-        [Order(5)]
+        [Order(4)]
         public void MainCoinDelete()
         {
             var coin = new Coin(); //Lokasyon silmek, o lokasyona tabii coinleri de siliyor. muhtemelen gereksiz kalacak
@@ -63,14 +44,14 @@ namespace SelTest1
             coin.CoinDelete(coinName);
         }
         [Test]
-        [Order(6)]
+        [Order(5)]
         public void MainPlace()
         {
             var place = new Place();
             place.PlacePhase();
         }
         [Test]
-        [Order(7)]
+        [Order(6)]
         public void MainPlaceDelete()
         {
             var place = new Place();
@@ -78,14 +59,14 @@ namespace SelTest1
             place.PlaceDelete(placeName);
         }
         [Test]
-        [Order(8)]
+        [Order(7)]
         public void MainInfo()
         {
             var info = new Info();
             info.InfoPhase();
         }
         [Test]
-        [Order(9)]
+        [Order(8)]
         public void MainInfoDelete()
         {
             var info = new Info();
@@ -93,14 +74,14 @@ namespace SelTest1
             info.InfoDelete(infoName);
         }
         [Test]
-        [Order(10)]
+        [Order(9)]
         public void MainPrize()
         {
             var prize = new Prize();
             prize.PrizePhase();
         }
         [Test]
-        [Order(11)]
+        [Order(10)]
         public void MainPrizeDelete()
         {
             var prize = new Prize();
@@ -108,14 +89,14 @@ namespace SelTest1
             prize.PrizeDelete(prizeName);
         }
         [Test]
-        [Order(12)]
+        [Order(11)]
         public void MainUser()
         {
             var user = new User();
             user.UserPhase();
         }
         [Test]
-        [Order(13)]
+        [Order(12)]
         public void MainUserDelete()
         {
             var user = new User();
@@ -123,20 +104,27 @@ namespace SelTest1
             user.UserDelete(userName);
         }
         [Test]
-        [Order(14)]
+        [Order(13)]
         public void MainQuestion()
         {
             var question = new Question();
             question.QuestionPhase();
         }
         [Test]
-        [Order(15)]
+        [Order(14)]
         public void MainQuestionDelete()
         {
             // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
             string text = "ATest text";
             var question = new Question();
             question.QuestionDelete(text);
+        }
+        [Test]
+        [Order(15)]
+        public void MainLogout()
+        {
+            var logout = new Logout();
+            logout.LogoutPhase();
         }
     }
 }

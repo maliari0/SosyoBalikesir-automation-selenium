@@ -1,28 +1,9 @@
-﻿using NUnit.Framework;
-
-using OpenQA.Selenium;
-
-using OpenQA.Selenium.Chrome;
-
-using OpenQA.Selenium.Firefox;
-
-using System;
-
-using System.Collections.ObjectModel;
-
-using System.IO;
-
-using NUnit.Framework;
-
-using OpenQA.Selenium.Support.UI;
-
-using SelTest1.Areas;
+﻿using SelTest1.Areas;
 
 namespace SelTest1
 {
     public class CollapseUpdate
     {
-        //asd
         [Test]
         [Order(0)]
         public void MainLogin()
@@ -58,7 +39,7 @@ namespace SelTest1
         [Order(4)]
         public void MainCoinDelete()
         {
-            var coin = new Coin(); //Lokasyon silmek, o lokasyona tabii coinleri de siliyor. muhtemelen gereksiz kalacak
+            var coin = new Coin(); //Lokasyon silmek, o lokasyona tâbi coinleri de siliyor. muhtemelen gereksiz kalacak
             string coinName = "ATest";
             coin.CoinDelete(coinName);
         }
@@ -137,6 +118,13 @@ namespace SelTest1
             string text = "ATest text Updated";
             var question = new Question();
             question.QuestionDelete(text);
+        }
+        [Test]
+        [Order(15)]
+        public void MainLogout()
+        {
+            var logout = new Logout();
+            logout.LogoutPhase();
         }
     }
 }
