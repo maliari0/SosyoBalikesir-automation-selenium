@@ -1,12 +1,6 @@
-﻿using OpenQA.Selenium;
-using SelTest1.drivers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SosyoBalikesirTesting.drivers;
 
-namespace SelTest1.Areas
+namespace SosyoBalikesirTesting.Areas
 {
     internal class Info
     {

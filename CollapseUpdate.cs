@@ -1,6 +1,6 @@
-﻿using SelTest1.Areas;
+﻿using SosyoBalikesirTesting.Areas;
 
-namespace SelTest1
+namespace SosyoBalikesirTesting
 {
     public class CollapseUpdate
     {

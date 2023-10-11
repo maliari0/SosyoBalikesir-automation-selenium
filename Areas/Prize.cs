@@ -1,24 +1,6 @@
-﻿using NUnit.Framework;
+﻿using SosyoBalikesirTesting.drivers;
 
-using OpenQA.Selenium;
-
-using OpenQA.Selenium.Chrome;
-
-using OpenQA.Selenium.Firefox;
-
-using System;
-
-using System.Collections.ObjectModel;
-
-using System.IO;
-
-using NUnit.Framework;
-
-using OpenQA.Selenium.Support.UI;
-using SelTest1.drivers;
-using System.Xml.Linq;
-
-namespace SelTest1.Areas
+namespace SosyoBalikesirTesting.Areas
 {
     internal class Prize
     {
