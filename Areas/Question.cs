@@ -24,7 +24,6 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void QuestionPhase()
         {
-            Thread.Sleep(100);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/question");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-question-circle\"]")).Click();
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
@@ -184,15 +183,19 @@ namespace SelTest1.Areas
             {
                 for (int i = 1; i <= questionAmount; i++)
                 {
-                    driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']")).SendKeys("Cevap " + i);
+                    IWebElement answerBoxesElement = driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']"));
+                    answerBoxesElement.Clear();
+                    answerBoxesElement.SendKeys("Updated Answer is " + i);
                     driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
 
                 }
                 for (int i = questionAmount + 1; i >= questionAmount + 1; i--)
                 {
                     var key = ("Cevap " + (i));
-                    driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']")).SendKeys(key);
-                    IWebElement correctAnswerCheckbox = driver.FindElement(By.Name("is_correct")); // Örnek bir ID kullanıldı
+                    IWebElement answerBoxesSelectElement = driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']"));
+                    answerBoxesSelectElement.Clear();
+                    answerBoxesSelectElement.SendKeys(key);
+                    IWebElement correctAnswerCheckbox = driver.FindElement(By.Name("is_correct")); 
                     correctAnswerCheckbox.Click();
 
                     //var radioButton = driver.FindElement(By.CssSelector($"input[name='is_correct'][value='{key}']"));

@@ -28,7 +28,6 @@ namespace SelTest1.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void CoinPhase()
         {
-            Thread.Sleep(100);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/coin");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-coins\"]")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
