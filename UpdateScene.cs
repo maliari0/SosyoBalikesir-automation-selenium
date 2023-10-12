@@ -106,7 +106,7 @@ namespace SosyoBalikesirTesting
             int claimAmount = 12;
             string status = "1";          // 0 - Alınamaz  ,  1 - Alınabilir
             var prize = new Prize();
-            prize.PrizeUpdate(value, name, newName, desc, coinAmount, prizeAmount, claimAmount, status);          
+            prize.PrizeUpdate(value, name, newName, desc, coinAmount, prizeAmount, claimAmount, status);
         }
         [Test]
         [Order(11)]

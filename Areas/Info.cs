@@ -7,6 +7,7 @@ namespace SosyoBalikesirTesting.Areas
         IWebDriver driver = WebDriverManager.GetDriver();
         public void InfoPhase()
         {
+            Thread.Sleep(500);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/information");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-poll\"]")).Click();
@@ -27,6 +28,8 @@ namespace SosyoBalikesirTesting.Areas
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
+        int count = 0;
+
         public void InfoDelete(string name)
         {
             bool x = true;
@@ -53,17 +56,29 @@ namespace SosyoBalikesirTesting.Areas
                             break;
                         }
                     }
-
+                    count++;
                     IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
                     yesButton.Click();
 
                     IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
                     okButton.Click();
+                    
                 }
                 catch (NoSuchElementException)
                 {
-                    Assert.IsTrue(IsInfoDeleteSuccessfully(), $"Bilgi silme başarısız: Bu isimde bilgi bulunamadı: {name}");
+                    //Assert.IsTrue(IsInfoDeleteSuccessfully(), $"Bilgi silme başarısız: Bu isimde bilgi bulunamadı: {name}. {count} adet veri silindi.");
+                    if (count == 0)
+                    {
+                        Assert.IsTrue(IsInfoDeleteSuccessfully(), $"{name} isimli bilgi bulunamadı. ");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{count} adet bilgi silindi.");
+                        break;
+                    }
                 }
+                
             } while (x == true);
  
         }
@@ -71,7 +86,8 @@ namespace SosyoBalikesirTesting.Areas
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                //driver.FindElement(By.CssSelector(".alert-success"));
                 return true;
             }
             catch (NoSuchElementException)
@@ -87,37 +103,43 @@ namespace SosyoBalikesirTesting.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(infoBody);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            try
+            {
+                IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{infoBody}']]"));
+                IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+                updateButton.Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{infoBody}']]"));
-            //tbody/tr[1]/td[1]
-            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
-            updateButton.Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+                IWebElement newTitleElement = driver.FindElement(By.Name("body"));
+                newTitleElement.Clear();
+                newTitleElement.SendKeys(newInfoBody);
 
-            IWebElement newTitleElement = driver.FindElement(By.Name("body"));
-            newTitleElement.Clear();
-            newTitleElement.SendKeys(newInfoBody);
+                IWebElement coinBox = driver.FindElement(By.Name("value"));
+                coinBox.Clear();
+                coinBox.SendKeys("" + coinValue);
 
-            IWebElement coinBox = driver.FindElement(By.Name("value"));
-            coinBox.Clear();
-            coinBox.SendKeys("" + coinValue);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                driver.FindElement(By.CssSelector(".btn-primary")).Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            }
+            catch (NoSuchElementException)
+            {
+                Assert.IsTrue(IsInfoUpdatedSuccessfully(), $"Bilgi güncelleme başarısız: Bu isimde bir bilgi bulunamadı: {infoBody}");
 
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
-            driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            }
 
-            Assert.IsTrue(IsInfoUpdatedSuccessfully(), $"Bilgi güncelleme başarısız: Bu isimde bir bilgi bulunamadı: {infoBody}");
         }
         private bool IsInfoUpdatedSuccessfully()
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
-                return false;
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                //driver.FindElement(By.CssSelector(".alert-success"));
+                return true;
             }
             catch (NoSuchElementException)
             {
-                return true;
+                return false;
             }
         }
     }

@@ -6,16 +6,14 @@ namespace SosyoBalikesirTesting.Areas
     {
         IWebDriver driver = WebDriverManager.GetDriver();
         public void LocationPhase()
-        {            
-            
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+        {
             Thread.Sleep(500);
+
+            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-location-arrow\"]")).Click();
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/location");
             //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            
-
         }
         public void LocationCreate(string locName, int coinNum)
         {
@@ -34,7 +32,8 @@ namespace SosyoBalikesirTesting.Areas
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
+                //driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
                 return false; 
             }
             catch (NoSuchElementException)
@@ -45,11 +44,10 @@ namespace SosyoBalikesirTesting.Areas
         public void LocationDelete(string locName)
         {
             Thread.Sleep(500);
-
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/location");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(locName);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             try
             {
                 IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{locName}']]"));
@@ -82,14 +80,14 @@ namespace SosyoBalikesirTesting.Areas
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
+                //driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
                 return true;
             }
             catch (NoSuchElementException)
             {
                 return false;
             }
-
         }
         public void LocationUpdate(string locName, string newLocName, int coinNum)
         {
@@ -99,36 +97,44 @@ namespace SosyoBalikesirTesting.Areas
             //IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{locName}']]"));
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(locName);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{locName}']]"));
+            try
+            {
+                IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{locName}']]"));
 
-            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
-            updateButton.Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+                IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+                updateButton.Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-            IWebElement nameElement = driver.FindElement(By.Name("name"));
-            nameElement.Clear();
-            nameElement.SendKeys(newLocName);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+                IWebElement nameElement = driver.FindElement(By.Name("name"));
+                nameElement.Clear();
+                nameElement.SendKeys(newLocName);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-            IWebElement coinBox = driver.FindElement(By.Name("default_coin_amount"));
-            coinBox.Clear();
-            coinBox.SendKeys("" + coinNum);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+                IWebElement coinBox = driver.FindElement(By.Name("default_coin_amount"));
+                coinBox.Clear();
+                coinBox.SendKeys("" + coinNum);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-            driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            Assert.IsTrue(IsLocationUpdatedSuccessfully(), $"Lokasyon güncelleme başarısız: Bu isimde lokasyon bulunamadı: {locName}");
+                driver.FindElement(By.CssSelector(".btn-primary")).Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            }
+            catch (NoSuchElementException)
+            {
+                Assert.IsTrue(IsLocationUpdatedSuccessfully(), $"Lokasyon güncelleme başarısız: Bu isimde lokasyon bulunamadı: {locName}");
+            }
+
         }
         private bool IsLocationUpdatedSuccessfully()
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
-                return false;
+                //driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                return true;
             }
             catch (NoSuchElementException)
             {
-                return true;
+                return false;
             }
         }
     }

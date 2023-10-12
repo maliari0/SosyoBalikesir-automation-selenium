@@ -4,10 +4,10 @@ namespace SosyoBalikesirTesting.Areas
 {
     internal class Coin
     {
-        //https://sosyobalikesir.com/panel/coin
         IWebDriver driver = WebDriverManager.GetDriver();
         public void CoinPhase()
         {
+            Thread.Sleep(500);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/coin");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-coins\"]")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
@@ -16,8 +16,10 @@ namespace SosyoBalikesirTesting.Areas
         public void CoinCreate(string type1, int coinValue)
         {
             Thread.Sleep(500);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-            driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
+            //driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/coin/create");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
             var locationSelect = driver.FindElement(By.Id("location_id"));
@@ -52,31 +54,24 @@ namespace SosyoBalikesirTesting.Areas
 
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            Assert.IsTrue(IsLocationCreatedSuccessfully(), "Coin oluşturma başarısız: Maksimum coin miktarı aşıldı.");
+            Assert.IsTrue(IsCoinCreatedSuccessfully(), "Coin oluşturma başarısız: Maksimum coin miktarı aşıldı.");
         }
-        private bool IsLocationCreatedSuccessfully()
+        private bool IsCoinCreatedSuccessfully()
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
-                return false; 
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                //driver.FindElement(By.CssSelector(".alert-success"));
+                return false;
             }
             catch (NoSuchElementException)
             {
-                return true; 
+                return true;
             }
         }
 
         public void CoinDelete(string name)
         {
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            //driver.Navigate().GoToUrl("https://sosyobalikesir.com/panel/coin");
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            //driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            //IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
-            //IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
-            //deleteButton.Click();
             bool x = true;
             do
             {
@@ -97,7 +92,7 @@ namespace SosyoBalikesirTesting.Areas
                     {
                         if (handle != mainWindowHandle)
                         {
-                            driver.SwitchTo().Window(handle); 
+                            driver.SwitchTo().Window(handle);
                             break;
                         }
                     }
@@ -113,13 +108,7 @@ namespace SosyoBalikesirTesting.Areas
                 {
                     break;
                 }
-
-
-
             } while (x == true);
-
-
-
         }
         //public void CoinUpdate(string name, string newName)
         //{

@@ -43,6 +43,8 @@ namespace SosyoBalikesirTesting.Areas
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
+        int count = 0;
+
         public void PlaceDelete(string name)
         {
             bool x = true;
@@ -69,6 +71,7 @@ namespace SosyoBalikesirTesting.Areas
                             break;
                         }
                     }
+                    count++;
                     IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
                     yesButton.Click();
 
@@ -77,7 +80,16 @@ namespace SosyoBalikesirTesting.Areas
                 }
                 catch (NoSuchElementException) 
                 {
-                    Assert.IsTrue(IsPlaceDeleteSuccessfully(), $"Yer silme başarısız: Bu isimde bir yer bulunamadı: {name}");
+                    if (count == 0)
+                    {
+                        Assert.IsTrue(IsPlaceDeleteSuccessfully(), $"{name} isimli bir yer bulunamadı. ");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{count} adet yer silindi.");
+                        break;
+                    }
                 }
 
             }
@@ -87,7 +99,8 @@ namespace SosyoBalikesirTesting.Areas
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                //driver.FindElement(By.CssSelector(".alert-success"));
                 return true;
             }
             catch (NoSuchElementException)
@@ -101,57 +114,62 @@ namespace SosyoBalikesirTesting.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(title1);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-
-            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{title1}']]"));
-            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
-            updateButton.Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-
-            IWebElement newTitleElement = driver.FindElement(By.Name("title"));
-            newTitleElement.Clear();
-            newTitleElement.SendKeys(newTitle1);
-
-            IWebElement newAddressElement = driver.FindElement(By.Name("address"));
-            newAddressElement.Clear();
-            newAddressElement.SendKeys(newAddress1);
-            //39.800853 28.133769	
-            //driver.FindElement(By.Name("mapLat")).SendKeys(lat);
-            //driver.FindElement(By.Name("mapLong")).SendKeys(lon);
-            IWebElement latBox = driver.FindElement(By.Name("map_lat"));
-            latBox.Clear();
-            latBox.SendKeys("" + lat);
-            IWebElement longBox = driver.FindElement(By.Name("map_long"));
-            longBox.Clear();
-            longBox.SendKeys("" + lon);
-
-            var statusSelect = driver.FindElement(By.Name("status"));
-            var statusSelectElement = new SelectElement(statusSelect);
-            if (status == "show")
+            try
             {
-                statusSelectElement.SelectByValue("1");
+                IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{title1}']]"));
+                IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+                updateButton.Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
+                IWebElement newTitleElement = driver.FindElement(By.Name("title"));
+                newTitleElement.Clear();
+                newTitleElement.SendKeys(newTitle1);
+
+                IWebElement newAddressElement = driver.FindElement(By.Name("address"));
+                newAddressElement.Clear();
+                newAddressElement.SendKeys(newAddress1);
+                //39.800853 28.133769	
+                //driver.FindElement(By.Name("mapLat")).SendKeys(lat);
+                //driver.FindElement(By.Name("mapLong")).SendKeys(lon);
+                IWebElement latBox = driver.FindElement(By.Name("map_lat"));
+                latBox.Clear();
+                latBox.SendKeys("" + lat);
+                IWebElement longBox = driver.FindElement(By.Name("map_long"));
+                longBox.Clear();
+                longBox.SendKeys("" + lon);
+
+                var statusSelect = driver.FindElement(By.Name("status"));
+                var statusSelectElement = new SelectElement(statusSelect);
+                if (status == "show")
+                {
+                    statusSelectElement.SelectByValue("1");
+
+                }
+                else if (status == "hide")
+                {
+                    statusSelectElement.SelectByValue("0");
+                }
+                else { }
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                driver.FindElement(By.CssSelector(".btn-primary")).Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             }
-            else if (status == "hide")
+            catch (NoSuchElementException)
             {
-                statusSelectElement.SelectByValue("0");
+                Assert.IsTrue(IsPlaceUpdatedSuccessfully(), $"Yer güncelleme başarısız: Bu isimde bir yer bulunamadı: {title1}");
             }
-            else { }
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
-            driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-
-            Assert.IsTrue(IsPlaceUpdatedSuccessfully(), $"Yer güncelleme başarısız: Bu isimde bir yer bulunamadı: {title1}");
         }
         private bool IsPlaceUpdatedSuccessfully()
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
-                return false;
+                //driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                return true;
             }
             catch (NoSuchElementException)
             {
-                return true;
+                return false;
             }
         }
     }

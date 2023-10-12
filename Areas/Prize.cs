@@ -44,6 +44,8 @@ namespace SosyoBalikesirTesting.Areas
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
+        int count = 0;
+
         public void PrizeDelete(string name)
         {
             bool x = true;
@@ -71,7 +73,7 @@ namespace SosyoBalikesirTesting.Areas
                             break;
                         }
                     }
-
+                    count++;
                     // Pop-up penceresindeki 'Evet' butonuna tıklayın
                     IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
                     yesButton.Click();
@@ -81,7 +83,16 @@ namespace SosyoBalikesirTesting.Areas
                 }
                 catch (NoSuchElementException)
                 {
-                    Assert.IsTrue(IsPrizeDeleteSuccessfully(), $"Ödül silme başarısız: Bu isimde bir ödül bulunamadı: {name}");
+                    if (count == 0)
+                    {
+                        Assert.IsTrue(IsPrizeDeleteSuccessfully(), $"{name} isimli ödül bulunamadı. ");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{count} adet ödül silindi.");
+                        break;
+                    }                        
                 }
             } while (x == true);
         }
@@ -89,7 +100,8 @@ namespace SosyoBalikesirTesting.Areas
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                //driver.FindElement(By.CssSelector(".alert-success"));
                 return true;
             }
             catch (NoSuchElementException)
@@ -105,60 +117,69 @@ namespace SosyoBalikesirTesting.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(prizeName);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{prizeName}']]"));
 
-            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
-            updateButton.Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            try
+            {
+                IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{prizeName}']]"));
 
-            var prizeSelect = driver.FindElement(By.Id("dealers"));
-            var prizeSelectElement = new SelectElement(prizeSelect);
-            //prizeSelectElement.SelectByValue("414"); //ATest value = 414 you can change
-            prizeSelectElement.SelectByIndex(prizeSelectElement.Options.Count - 1);
+                IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+                updateButton.Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+                var prizeSelect = driver.FindElement(By.Id("dealers"));
+                var prizeSelectElement = new SelectElement(prizeSelect);
+                //prizeSelectElement.SelectByValue("414"); //ATest value = 414 you can change
+                prizeSelectElement.SelectByIndex(prizeSelectElement.Options.Count - 1);
 
 
-            var headlineSelect = driver.FindElement(By.Id("headline"));
-            var headlineSelectElement = new SelectElement(headlineSelect);
-            headlineSelectElement.SelectByValue(value);                         // 0 - hayır , 1 - evet
+                var headlineSelect = driver.FindElement(By.Id("headline"));
+                var headlineSelectElement = new SelectElement(headlineSelect);
+                headlineSelectElement.SelectByValue(value);                         // 0 - hayır , 1 - evet
 
-            IWebElement nameElement = driver.FindElement(By.Name("name"));
-            nameElement.Clear();
-            nameElement.SendKeys(newPrizeName);
+                IWebElement nameElement = driver.FindElement(By.Name("name"));
+                nameElement.Clear();
+                nameElement.SendKeys(newPrizeName);
 
-            IWebElement prizeDescElement = driver.FindElement(By.Name("description"));
-            prizeDescElement.Clear();
-            prizeDescElement.SendKeys(prizeDesc);
+                IWebElement prizeDescElement = driver.FindElement(By.Name("description"));
+                prizeDescElement.Clear();
+                prizeDescElement.SendKeys(prizeDesc);
 
-            IWebElement coinBox = driver.FindElement(By.Name("coin_amount"));
-            coinBox.Clear();
-            coinBox.SendKeys("" + coinAmount);
+                IWebElement coinBox = driver.FindElement(By.Name("coin_amount"));
+                coinBox.Clear();
+                coinBox.SendKeys("" + coinAmount);
 
-            IWebElement amountBox = driver.FindElement(By.Name("amount"));
-            amountBox.Clear();
-            amountBox.SendKeys("" + prizeAmount);
+                IWebElement amountBox = driver.FindElement(By.Name("amount"));
+                amountBox.Clear();
+                amountBox.SendKeys("" + prizeAmount);
 
-            IWebElement claimAmountBox = driver.FindElement(By.Name("claim_amount"));
-            claimAmountBox.Clear();
-            claimAmountBox.SendKeys("" + claimAmount);
+                IWebElement claimAmountBox = driver.FindElement(By.Name("claim_amount"));
+                claimAmountBox.Clear();
+                claimAmountBox.SendKeys("" + claimAmount);
 
-            var statusSelect = driver.FindElement(By.Name("status"));
-            var statusSelectElement = new SelectElement(statusSelect);
-            statusSelectElement.SelectByValue(prizeStatus);
+                var statusSelect = driver.FindElement(By.Name("status"));
+                var statusSelectElement = new SelectElement(statusSelect);
+                statusSelectElement.SelectByValue(prizeStatus);
 
-            driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            Assert.IsTrue(IsPrizeUpdatedSuccessfully(), $"Ödül güncelleme başarısız: Bu isimde bir ödül bulunamadı: {prizeName}");
+                driver.FindElement(By.CssSelector(".btn-primary")).Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            }
+            catch (NoSuchElementException)
+            {
+                Assert.IsTrue(IsPrizeUpdatedSuccessfully(), $"Ödül güncelleme başarısız: Bu isimde bir ödül bulunamadı: {prizeName}");
+            }
+
         }
         private bool IsPrizeUpdatedSuccessfully()
         {
             try
             {
-                driver.FindElement(By.CssSelector(".alert-success"));
-                return false;
+                //driver.FindElement(By.CssSelector(".alert-success"));
+                driver.FindElement(By.CssSelector(".swal2-x-mark"));
+                return true;
             }
             catch (NoSuchElementException)
             {
-                return true;
+                return false;
             }
         }
     }
