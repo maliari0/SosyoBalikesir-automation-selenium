@@ -130,7 +130,6 @@ namespace SosyoBalikesirTesting.Areas
                     }
                     else
                     {
-                        //Debug.WriteLine("Bu bir test çıktısıdır.");
                         Console.WriteLine($"{c} adet soru silindi.");
                         Debug.WriteLine($"{c} adet soru silindi.");
                         break;
@@ -156,7 +155,7 @@ namespace SosyoBalikesirTesting.Areas
         {
             Thread.Sleep(500);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/question");
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(qText);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             try
@@ -165,39 +164,37 @@ namespace SosyoBalikesirTesting.Areas
                 //tbody/tr[1]/td[1]
                 IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
                 updateButton.Click();
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
                 IWebElement newTitleElement = driver.FindElement(By.Name("question_text"));
                 newTitleElement.Clear();
                 newTitleElement.SendKeys(newQText);
 
-                var typeSelect = driver.FindElement(By.Name("question_type"));
-                var typeSelectElement = new SelectElement(typeSelect);
-                typeSelectElement.SelectByIndex(type);
-                // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
 
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                
+                // Birden çok yanıt - 1 , Çoktan seçmeli - 2 , Boşluk doldurma - 3
+                var typeSelect2 = driver.FindElement(By.Name("question_type"));
+                var typeSelectElement2 = new SelectElement(typeSelect2);
+                typeSelectElement2.SelectByIndex(type);
+
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
                 if (type == 1)
                 {
-                    for (int i = 1; i <= questionAmount; i++)
+                    for (int i = 1; i <= questionAmount+1; i++)
                     {
                         IWebElement answerBoxesElement = driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']"));
                         answerBoxesElement.Clear();
                         answerBoxesElement.SendKeys("Updated Answer is " + i);
-                        driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
-
+                        //driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
                     }
                     for (int i = questionAmount + 1; i >= questionAmount + 1; i--)
                     {
-                        var key = ("Cevap " + (i));
-                        IWebElement answerBoxesSelectElement = driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']"));
-                        answerBoxesSelectElement.Clear();
-                        answerBoxesSelectElement.SendKeys(key);
+                        //var key = ("Cevap " + (i));
+                        //IWebElement answerBoxesSelectElement = driver.FindElement(By.CssSelector("div.answerContainer div:nth-child(" + i + ") input[type='text']"));
+                        //answerBoxesSelectElement.Clear();
+                        //answerBoxesSelectElement.SendKeys(key);
                         IWebElement correctAnswerCheckbox = driver.FindElement(By.Name("is_correct"));
                         correctAnswerCheckbox.Click();
-
-                        //var radioButton = driver.FindElement(By.CssSelector($"input[name='is_correct'][value='{key}']"));
-                        //((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].setAttribute('checked', 'true')", radioButton);
                     }
                 }
                 else { }  //doldurulacak diğer soru tipleri için
