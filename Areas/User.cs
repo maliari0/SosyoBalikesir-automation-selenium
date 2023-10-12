@@ -24,7 +24,6 @@ namespace SosyoBalikesirTesting.Areas
             var groupSelectElement = new SelectElement(groupSelect);
             groupSelectElement.SelectByValue(groupType);
 
-
             driver.FindElement(By.Name("fullName")).SendKeys(name);
             driver.FindElement(By.Name("username")).SendKeys(userName);
             driver.FindElement(By.Name("email")).SendKeys(email);

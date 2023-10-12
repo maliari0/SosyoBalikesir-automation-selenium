@@ -1,4 +1,5 @@
 ﻿using SosyoBalikesirTesting.drivers;
+using System.Diagnostics;
 
 namespace SosyoBalikesirTesting.Areas
 {
@@ -9,7 +10,6 @@ namespace SosyoBalikesirTesting.Areas
         {
             Thread.Sleep(100);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place");
-            //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void PlaceCreate(string title1, string address1, int lat, int lon, string status)
@@ -20,8 +20,6 @@ namespace SosyoBalikesirTesting.Areas
             driver.FindElement(By.Name("title")).SendKeys(title1);
             driver.FindElement(By.Name("address")).SendKeys(address1);
             //39.800853 28.133769	
-            //driver.FindElement(By.Name("mapLat")).SendKeys(lat);
-            //driver.FindElement(By.Name("mapLong")).SendKeys(lon);
             IWebElement latBox = driver.FindElement(By.Name("map_lat"));
             latBox.SendKeys("" + lat);
             IWebElement longBox = driver.FindElement(By.Name("map_long"));
@@ -58,7 +56,6 @@ namespace SosyoBalikesirTesting.Areas
                 try
                 {
                     IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
-                    //tbody/tr[1]/td[1]
                     IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
                     deleteButton.Click();
                     driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
@@ -87,6 +84,7 @@ namespace SosyoBalikesirTesting.Areas
                     }
                     else
                     {
+                        Debug.WriteLine($"{count} adet yer silindi.");
                         Console.WriteLine($"{count} adet yer silindi.");
                         break;
                     }
@@ -129,8 +127,6 @@ namespace SosyoBalikesirTesting.Areas
                 newAddressElement.Clear();
                 newAddressElement.SendKeys(newAddress1);
                 //39.800853 28.133769	
-                //driver.FindElement(By.Name("mapLat")).SendKeys(lat);
-                //driver.FindElement(By.Name("mapLong")).SendKeys(lon);
                 IWebElement latBox = driver.FindElement(By.Name("map_lat"));
                 latBox.Clear();
                 latBox.SendKeys("" + lat);

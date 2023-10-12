@@ -10,13 +10,13 @@ namespace SosyoBalikesirTesting.Areas
             Thread.Sleep(500);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/coin");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-coins\"]")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
         }
         public void CoinCreate(string type1, int coinValue)
         {
             Thread.Sleep(500);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
             //driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/coin/create");

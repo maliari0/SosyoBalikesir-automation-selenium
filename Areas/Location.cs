@@ -8,11 +8,9 @@ namespace SosyoBalikesirTesting.Areas
         public void LocationPhase()
         {
             Thread.Sleep(500);
-
             //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-location-arrow\"]")).Click();
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/location");
-            //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void LocationCreate(string locName, int coinNum)
@@ -25,7 +23,7 @@ namespace SosyoBalikesirTesting.Areas
             coinBox.Clear();
             coinBox.SendKeys("" + coinNum);
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             Assert.IsTrue(IsLocationCreatedSuccessfully(), $"Lokasyon oluşturma başarısız: {locName} isminde bir lokasyon zaten var.");
         }
         private bool IsLocationCreatedSuccessfully()
@@ -54,24 +52,22 @@ namespace SosyoBalikesirTesting.Areas
                 IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
                 deleteButton.Click();
 
-                string mainWindowHandle = driver.CurrentWindowHandle; // Ana pencerenin işaretçisini alın
+                string mainWindowHandle = driver.CurrentWindowHandle; 
                 foreach (string handle in driver.WindowHandles)
                 {
                     if (handle != mainWindowHandle)
                     {
-                        driver.SwitchTo().Window(handle); // Pop-up penceresine geçiş yapın
+                        driver.SwitchTo().Window(handle); 
                         break;
                     }
                 }
-
-                // Pop-up penceresindeki 'Evet' butonuna tıklayın
                 IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
                 yesButton.Click();
 
                 IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
                 okButton.Click();
             }
-            catch (NoSuchElementException e)
+            catch (NoSuchElementException)
             {
                 Assert.IsTrue(IsLocationDeleteSuccessfully(), $"Lokasyon silme başarısız: Bu isimde lokasyon bulunamadı: {locName}");
             }

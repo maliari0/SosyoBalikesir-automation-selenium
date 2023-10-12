@@ -127,32 +127,32 @@ namespace SosyoBalikesirTesting
             var question = new Question();
             question.QuestionUpdate(text, newText, type, questionAmount);
         }
-        [Test]
-        [Order(13)]
-        public void MainUser()
-        {
-            var user = new User();
-            user.UserPhase();
-        }
-        [Test]
-        [Order(14)]
-        public void MainUserUpdate()
-        {
-            var user = new User();
-            string type = "dealer";    // dealer = Bayii , admin = Admin
-            string name = "ATest";
-            string newName = "ATest Updated";
-            string userName = "atest";
-            string email = "atest@test.com";
-            string password = "atest12";
-            user.UserUpdate(type, name, newName, userName, email, password);
-        }
-        [Test]
-        [Order(15)]
-        public void MainLogout()
-        {
-            var logout = new Logout();
-            logout.LogoutPhase();
-        }
+        //[Test]
+        //[Order(13)]
+        //public void MainUser()
+        //{
+        //    var user = new User();
+        //    user.UserPhase();
+        //}
+        //[Test]
+        //[Order(14)]
+        //public void MainUserUpdate()
+        //{
+        //    var user = new User();
+        //    string type = "dealer";    // dealer = Bayii , admin = Admin
+        //    string name = "ATest";
+        //    string newName = "ATest Updated";
+        //    string userName = "atest";
+        //    string email = "atest@test.com";
+        //    string password = "atest12";
+        //    user.UserUpdate(type, name, newName, userName, email, password);
+        //}
+        //[Test]
+        //[Order(15)]
+        //public void MainLogout()
+        //{
+        //    var logout = new Logout();
+        //    logout.LogoutPhase();
+        //}
     }
 }

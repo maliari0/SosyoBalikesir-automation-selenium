@@ -1,4 +1,5 @@
 ﻿using SosyoBalikesirTesting.drivers;
+using System.Diagnostics;
 
 namespace SosyoBalikesirTesting.Areas
 {
@@ -14,8 +15,7 @@ namespace SosyoBalikesirTesting.Areas
         }
         public void PrizeCreate(string value, string prizeName, string prizeDesc, int coinNum, int prizeAmount)
         {
-            Thread.Sleep(1000);
-
+            Thread.Sleep(500);
             //driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/award/create");
 
@@ -24,19 +24,15 @@ namespace SosyoBalikesirTesting.Areas
             //prizeSelectElement.SelectByValue("414"); //ATest value = 414 you can change
             prizeSelectElement.SelectByIndex(prizeSelectElement.Options.Count - 1);
 
-
             var typeSelect = driver.FindElement(By.Id("type"));
             var typeSelectElement = new SelectElement(typeSelect);
             typeSelectElement.SelectByValue(value);
 
             driver.FindElement(By.Name("name")).SendKeys(prizeName);
-
             driver.FindElement(By.Name("description")).SendKeys(prizeDesc);
-
             IWebElement coinBox = driver.FindElement(By.Name("coin_amount"));
             coinBox.Clear();
             coinBox.SendKeys("" + coinNum);
-
             IWebElement amountBox = driver.FindElement(By.Name("amount"));
             amountBox.Clear();
             amountBox.SendKeys("" + prizeAmount);
@@ -60,21 +56,19 @@ namespace SosyoBalikesirTesting.Areas
                 try
                 {
                     IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
-                    //tbody/tr[1]/td[1]
                     IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
                     deleteButton.Click();
 
-                    string mainWindowHandle = driver.CurrentWindowHandle; // Ana pencerenin işaretçisini alın
+                    string mainWindowHandle = driver.CurrentWindowHandle; 
                     foreach (string handle in driver.WindowHandles)
                     {
                         if (handle != mainWindowHandle)
                         {
-                            driver.SwitchTo().Window(handle); // Pop-up penceresine geçiş yapın
+                            driver.SwitchTo().Window(handle); 
                             break;
                         }
                     }
                     count++;
-                    // Pop-up penceresindeki 'Evet' butonuna tıklayın
                     IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
                     yesButton.Click();
 
@@ -90,9 +84,10 @@ namespace SosyoBalikesirTesting.Areas
                     }
                     else
                     {
+                        Debug.WriteLine($"{count} adet ödül silindi.");
                         Console.WriteLine($"{count} adet ödül silindi.");
                         break;
-                    }                        
+                    }
                 }
             } while (x == true);
         }

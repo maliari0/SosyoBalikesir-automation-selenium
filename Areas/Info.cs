@@ -1,4 +1,5 @@
 ﻿using SosyoBalikesirTesting.drivers;
+using System.Diagnostics;
 
 namespace SosyoBalikesirTesting.Areas
 {
@@ -11,12 +12,11 @@ namespace SosyoBalikesirTesting.Areas
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/information");
             //driver.FindElement(By.CssSelector("i[class=\"nav-icon fas fa-poll\"]")).Click();
-            //System.Threading.Thread.Sleep(2000); bu kod parçacığı işlemi de wait processine sokuyor. implicitWait kullan
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         public void InfoCreate(string infoBody, int coinValue)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
 
@@ -61,8 +61,7 @@ namespace SosyoBalikesirTesting.Areas
                     yesButton.Click();
 
                     IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
-                    okButton.Click();
-                    
+                    okButton.Click(); 
                 }
                 catch (NoSuchElementException)
                 {
@@ -74,13 +73,12 @@ namespace SosyoBalikesirTesting.Areas
                     }
                     else
                     {
+                        Debug.WriteLine($"{count} adet bilgi silindi.");
                         Console.WriteLine($"{count} adet bilgi silindi.");
                         break;
                     }
                 }
-                
             } while (x == true);
- 
         }
         private bool IsInfoDeleteSuccessfully()
         {
@@ -94,7 +92,6 @@ namespace SosyoBalikesirTesting.Areas
             {
                 return false;
             }
-
         }
         public void InfoUpdate(string infoBody,string newInfoBody, int coinValue)
         {
