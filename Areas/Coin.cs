@@ -16,8 +16,6 @@ namespace SosyoBalikesirTesting.Areas
         public void CoinCreate(string type1, int coinValue)
         {
             Thread.Sleep(500);
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
-
             //driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
             driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/coin/create");
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
@@ -33,7 +31,6 @@ namespace SosyoBalikesirTesting.Areas
             if (type1 == "coin")
             {
                 typeSelectElement.SelectByValue("1");
-
             }
             else if (type1 == "bilgi")
             {

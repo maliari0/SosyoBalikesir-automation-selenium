@@ -89,7 +89,6 @@ namespace SosyoBalikesirTesting.Areas
                         break;
                     }
                 }
-
             }
             while (x == true);       
         }
