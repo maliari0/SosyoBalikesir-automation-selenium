@@ -8,8 +8,8 @@ namespace SosyoBalikesirTesting
         [Order(0)]
         public void MainLogin()
         {
-            string email = "aliari4558@gmail.com";
-            string pass = "26242615";
+            string email = "IDFORADMIN";
+            string pass = "PASSWFORADMIN";
             var log = new Login();
             log.LoginPhase(email, pass);
         }
@@ -60,11 +60,9 @@ namespace SosyoBalikesirTesting
             //string title1, string address1, string lat, string lon, string status
             string title = "ATest";
             string titleUpdated = "ATestUpdated";
-            string address = "ATest address";
             string addressUpdated = "ATest address Updated";
             float lat = 39.1f;
             float lon = 28.1f;
-            string status = "show";
             string statusUpdated = "hide";
             var place = new Place();
             place.PlaceUpdate(title, titleUpdated, addressUpdated, lat, lon, statusUpdated);
@@ -127,32 +125,32 @@ namespace SosyoBalikesirTesting
             var question = new Question();
             question.QuestionUpdate(text, newText, type, questionAmount);
         }
-        //[Test]
-        //[Order(13)]
-        //public void MainUser()
-        //{
-        //    var user = new User();
-        //    user.UserPhase();
-        //}
-        //[Test]
-        //[Order(14)]
-        //public void MainUserUpdate()
-        //{
-        //    var user = new User();
-        //    string type = "dealer";    // dealer = Bayii , admin = Admin
-        //    string name = "ATest";
-        //    string newName = "ATest Updated";
-        //    string userName = "atest";
-        //    string email = "atest@test.com";
-        //    string password = "atest12";
-        //    user.UserUpdate(type, name, newName, userName, email, password);
-        //}
-        //[Test]
-        //[Order(15)]
-        //public void MainLogout()
-        //{
-        //    var logout = new Logout();
-        //    logout.LogoutPhase();
-        //}
+        [Test]
+        [Order(13)]
+        public void MainUser()
+        {
+            var user = new User();
+            user.UserPhase();
+        }
+        [Test]
+        [Order(14)]
+        public void MainUserUpdate()
+        {
+            var user = new User();
+            string type = "dealer";    // dealer = Bayii , admin = Admin
+            string name = "ATest";
+            string newName = "ATest Updated";
+            string userName = "atest";
+            string email = "atest@test.com";
+            string password = "atest12";
+            user.UserUpdate(type, name, newName, userName, email, password);
+        }
+        [Test]
+        [Order(15)]
+        public void MainLogout()
+        {
+            var logout = new Logout();
+            logout.LogoutPhase();
+        }
     }
 }

@@ -1,16 +1,16 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SosyoBalikesirTesting.Areas;
 
 namespace SosyoBalikesirTesting
 {
-    public class Tests
+    public class Create
     {
-
         [Test]
         [Order(0)]
         public void MainLogin() 
         {
-            string email = "aliari4558@gmail.com";
-            string pass = "26242615";
+            string email = "IDFORADMIN";
+            string pass = "PASSWFORADMIN";
             var log = new Login();
             log.LoginPhase(email, pass);
         }
@@ -123,7 +123,7 @@ namespace SosyoBalikesirTesting
         }
         [Test]
         [Order(13)]
-        public void MainUserPhase()
+        public void MainUser()
         {
             var user = new User();
             user.UserPhase();
