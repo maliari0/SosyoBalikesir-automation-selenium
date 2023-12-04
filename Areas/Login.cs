@@ -1,5 +1,4 @@
 ﻿using SosyoBalikesirTesting.drivers;
-
 namespace SosyoBalikesirTesting.Areas
 {
     internal class Login
@@ -13,7 +12,8 @@ namespace SosyoBalikesirTesting.Areas
             driver.FindElement(By.Name("email")).SendKeys(email);
             driver.FindElement(By.Name("password")).SendKeys(passw);
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(6);
+
         }
     }
 }

@@ -107,68 +107,67 @@ namespace SosyoBalikesirTesting.Areas
                 }
             } while (x == true);
         }
-        //public void CoinUpdate(string name, string newName)
-        //{
-        //    Thread.Sleep(500);
-        //    driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/coin");
-        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-        //    driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
-        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+        public void CoinUpdate(string name, string type1, int coinValue)
+        {
+            Thread.Sleep(500);
+            driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-        //    IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+            updateButton.Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-        //    IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
-        //    updateButton.Click();
-        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            var locationSelect = driver.FindElement(By.Id("location_id"));
+            var locSelectElement = new SelectElement(locationSelect);
+            locSelectElement.SelectByIndex(locSelectElement.Options.Count - 2);
 
-        //    var locationSelect = driver.FindElement(By.Id("location_id"));
-        //    var locSelectElement = new SelectElement(locationSelect);
-        //    locSelectElement.SelectByIndex(locSelectElement.Options.Count - 1);
+            IWebElement latElement = driver.FindElement(By.Name("map_lat"));
+            latElement.Clear();
+            latElement.SendKeys("39.273");
+            IWebElement longElement = driver.FindElement(By.Name("map_long"));
+            longElement.Clear();
+            longElement.SendKeys("27.999");
 
-        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+            var typeSelect = driver.FindElement(By.Name("type"));
+            var typeSelectElement = new SelectElement(typeSelect);
+            if (type1 == "coin")
+            {
+                typeSelectElement.SelectByValue("1");
 
-        //    var typeSelect = driver.FindElement(By.Name("type"));
-        //    var typeSelectElement = new SelectElement(typeSelect);
-        //    if (type1 == "coin")
-        //    {
-        //        typeSelectElement.SelectByValue("1");
+            }
+            else if (type1 == "bilgi")
+            {
+                typeSelectElement.SelectByValue("2");
+            }
+            else { }
 
-        //    }
-        //    else if (type1 == "bilgi")
-        //    {
-        //        typeSelectElement.SelectByValue("2");
-        //    }
-        //    else { }
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
-        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+            IWebElement coinBox = driver.FindElement(By.Name("value"));
+            coinBox.Clear();
+            coinBox.SendKeys("" + coinValue);
 
-        //    IWebElement coinBox = driver.FindElement(By.Name("value"));
-        //    coinBox.Clear();
-        //    coinBox.SendKeys("" + coinValue);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            driver.FindElement(By.Id("map")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
-        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-        //    driver.FindElement(By.Id("map")).Click();
-        //    //driver.FindElement(By.Id("addedCoinAmountBtn")).Click();
-        //    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            string mainWindowHandle = driver.CurrentWindowHandle;
+            foreach (string handle in driver.WindowHandles)
+            {
+                if (handle != mainWindowHandle)
+                {
+                    driver.SwitchTo().Window(handle);
+                    break;
+                }
+            }
 
+            IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
+            yesButton.Click();
 
-
-
-        //    string mainWindowHandle = driver.CurrentWindowHandle; 
-        //    foreach (string handle in driver.WindowHandles)
-        //    {
-        //        if (handle != mainWindowHandle)
-        //        {
-        //            driver.SwitchTo().Window(handle);
-        //            break;
-        //        }
-        //    }
-
-        //    IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
-        //    yesButton.Click();
-
-        //    IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
-        //    okButton.Click();
-        //}
+            IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
+            okButton.Click();
+        }
     }
 }

@@ -15,8 +15,7 @@ namespace SosyoBalikesirTesting.Areas
         public void PlaceCreate(string title1, string address1, int lat, int lon, string status)
         {
             Thread.Sleep(500);
-
-            driver.FindElement(By.CssSelector("i[class=\"fa fa-plus\"]")).Click();
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place/create");
             driver.FindElement(By.Name("title")).SendKeys(title1);
             driver.FindElement(By.Name("address")).SendKeys(address1);
             //39.800853 28.133769	

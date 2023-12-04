@@ -8,8 +8,8 @@ namespace SosyoBalikesirTesting
         [Order(0)]
         public void MainLogin()
         {
-            string email = "IDFORADMIN";
-            string pass = "PASSWFORADMIN";
+            string email = "aliari4558@gmail.com";
+            string pass = "28117121";
             var log = new Login();
             log.LoginPhase(email, pass);
         }
