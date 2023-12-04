@@ -85,6 +85,15 @@ namespace SosyoBalikesirTesting
         }
         [Test]
         [Order(9)]
+        public void TempDelete()
+        {
+            var user = new User();
+            string userName = "atesttemp";
+            user.UserDelete(userName);
+            Thread.Sleep(100);
+        }
+        [Test]
+        [Order(10)]
         public void MainLogout()
         {
             var logout = new Logout();
