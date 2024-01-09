@@ -37,15 +37,16 @@ namespace SosyoBalikesirTesting
             var coin = new Coin();
             coin.CoinPhase();
         }
-        //[Test]
-        //[Order(4)]
-        //public void MainCoinUpdate()
-        //{
-        //    int coinValue = 1;
-        //    string type = "coin";
-        //    var coin = new Coin();
-        //    coin.CoinCreate(type, coinValue);
-        //}
+        [Test]
+        [Order(4)]
+        public void MainCoinUpdate()
+        {
+            string name= "ATest";
+            string type = "coin";
+            int coinValue = 11;
+            var coin = new Coin();
+            coin.CoinUpdate(name, type, coinValue);
+        }
         [Test]
         [Order(5)]
         public void MainPlace()

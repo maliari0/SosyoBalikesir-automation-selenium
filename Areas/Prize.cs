@@ -123,7 +123,6 @@ namespace SosyoBalikesirTesting.Areas
 
                 var prizeSelect = driver.FindElement(By.Id("dealers"));
                 var prizeSelectElement = new SelectElement(prizeSelect);
-                //prizeSelectElement.SelectByValue("414"); //ATest value = 414 you can change
                 prizeSelectElement.SelectByIndex(prizeSelectElement.Options.Count - 1);
 
 

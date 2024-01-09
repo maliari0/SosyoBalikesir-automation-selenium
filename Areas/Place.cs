@@ -6,6 +6,104 @@ namespace SosyoBalikesirTesting.Areas
     internal class Place
     {
         IWebDriver driver = WebDriverManager.GetDriver();
+
+        public void PlaceCategoryPhase()
+        {
+            Thread.Sleep(100);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place-category");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+        }
+
+        public void PlaceCategoryCreate(string name, string status)
+        {
+            Thread.Sleep(500);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place-category/create");
+            driver.FindElement(By.Name("name")).SendKeys(name);
+
+            var statusSelect = driver.FindElement(By.Name("status"));
+            var statusSelectElement = new SelectElement(statusSelect);
+            if (status == "show")
+            {
+                statusSelectElement.SelectByValue("1");
+
+            }
+            else if (status == "hide")
+            {
+                statusSelectElement.SelectByValue("0");
+            }
+            else { }
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+            driver.FindElement(By.CssSelector(".btn-primary")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+        }
+
+        int count = 0;
+
+        public void PlaceCategoryDelete(string name)
+        {
+            Thread.Sleep(500);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place-category");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+            IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
+            deleteButton.Click();
+
+            string mainWindowHandle = driver.CurrentWindowHandle;
+            foreach (string handle in driver.WindowHandles)
+            {
+                if (handle != mainWindowHandle)
+                {
+                    driver.SwitchTo().Window(handle);
+                    break;
+                }
+            }
+
+            IWebElement yesButton = driver.FindElement(By.XPath("//button[text()='Sil']"));
+            yesButton.Click();
+
+            IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
+            okButton.Click();
+        }
+
+        public void PlaceCategoryUpdate(string name, string newName, string status)
+        {
+            Thread.Sleep(300);
+            driver.Navigate().GoToUrl("https://www.sosyobalikesir.com/panel/place-category");
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            driver.FindElement(By.CssSelector("input[type='search']")).SendKeys(name);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+
+            IWebElement table = driver.FindElement(By.XPath($"//table/tbody/tr[td[text()='{name}']]"));
+            IWebElement updateButton = table.FindElement(By.CssSelector("i[class=\"fa fa-edit\"]"));
+            updateButton.Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+
+            IWebElement newTitleElement = driver.FindElement(By.Name("name"));
+            newTitleElement.Clear();
+            newTitleElement.SendKeys(newName);
+
+            var statusSelect = driver.FindElement(By.Name("status"));
+            var statusSelectElement = new SelectElement(statusSelect);
+            if (status == "show")
+            {
+                statusSelectElement.SelectByValue("1");
+
+            }
+            else if (status == "hide")
+            {
+                statusSelectElement.SelectByValue("0");
+            }
+            else { }
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+            driver.FindElement(By.CssSelector(".btn-primary")).Click();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
+        }
+
         public void PlacePhase()
         {
             Thread.Sleep(100);
@@ -40,7 +138,6 @@ namespace SosyoBalikesirTesting.Areas
             driver.FindElement(By.CssSelector(".btn-primary")).Click();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
-        int count = 0;
 
         public void PlaceDelete(string name)
         {
@@ -58,12 +155,12 @@ namespace SosyoBalikesirTesting.Areas
                     IWebElement deleteButton = table.FindElement(By.CssSelector("form.deleteForm button.btn-danger"));
                     deleteButton.Click();
                     driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-                    string mainWindowHandle = driver.CurrentWindowHandle; 
+                    string mainWindowHandle = driver.CurrentWindowHandle;
                     foreach (string handle in driver.WindowHandles)
                     {
                         if (handle != mainWindowHandle)
                         {
-                            driver.SwitchTo().Window(handle); 
+                            driver.SwitchTo().Window(handle);
                             break;
                         }
                     }
@@ -74,7 +171,7 @@ namespace SosyoBalikesirTesting.Areas
                     IWebElement okButton = driver.FindElement(By.XPath("//button[text()='OK']"));
                     okButton.Click();
                 }
-                catch (NoSuchElementException) 
+                catch (NoSuchElementException)
                 {
                     if (count == 0)
                     {
@@ -89,7 +186,7 @@ namespace SosyoBalikesirTesting.Areas
                     }
                 }
             }
-            while (x == true);       
+            while (x == true);
         }
         private bool IsPlaceDeleteSuccessfully()
         {
@@ -105,6 +202,7 @@ namespace SosyoBalikesirTesting.Areas
             }
 
         }
+
         public void PlaceUpdate(string title1, string newTitle1, string newAddress1, float lat, float lon, string status)
         {
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);

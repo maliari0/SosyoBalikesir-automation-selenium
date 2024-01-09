@@ -35,14 +35,14 @@ namespace SosyoBalikesirTesting
             var coin = new Coin();
             coin.CoinPhase();
         }
-        [Test]
-        [Order(4)]
-        public void MainCoinDelete()
-        {
-            var coin = new Coin(); //Lokasyon silmek, o lokasyona tâbi coinleri de siliyor. muhtemelen gereksiz kalacak
-            string coinName = "ATest";
-            coin.CoinDelete(coinName);
-        }
+        //[Test]
+        //[Order(4)]
+        //public void MainCoinDelete()
+        //{
+        //    var coin = new Coin(); 
+        //    string coinName = "ATestUpdated";
+        //    coin.CoinDelete(coinName);
+        //}
         [Test]
         [Order(5)]
         public void MainPlace()
